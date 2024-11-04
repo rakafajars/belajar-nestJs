@@ -78,4 +78,12 @@ export class UserController {
   getCookie(@Req() request: Request): string {
     return request.cookies['name'];
   }
+
+  @Get('/view/hello')
+  viewHello(@Query('name') name: string, @Res() response: Response) {
+    response.render('index.html', {
+      title: 'raka Fajar',
+      name: name,
+    });
+  }
 }
