@@ -2,7 +2,7 @@
 //   connection: Connection;
 
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
+// import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
 
 //   save() {
@@ -21,12 +21,12 @@ export class UserRepository {
     console.info('Create User Repository');
   }
 
-  async save(firstName: string, lastName?: string): Promise<User> {
-    return this.prismaService.user.create({
-      data: {
-        first_name: firstName,
-        last_name: lastName,
-      },
-    });
-  }
+  // async save(firstName: string, lastName?: string): Promise<User> {
+  //   return this.prismaService.user.create({
+  //     data: {
+  //       first_name: firstName,
+  //       last_name: lastName,
+  //     },
+  //   });
+  // }
 }

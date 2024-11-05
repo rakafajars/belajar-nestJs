@@ -11,6 +11,8 @@ async function bootstrap() {
   // Membuat instance aplikasi Nest.js dengan tipe Express
   // Generic type <NestExpressApplication> diperlukan untuk mengakses fitur Express
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  // const logger = // create your logger
+  // app.useLogger(logger);
 
   // Menggunakan middleware cookie-parser dengan secret key 'RAHASIA'
   // Secret key ini digunakan untuk menandatangani cookies

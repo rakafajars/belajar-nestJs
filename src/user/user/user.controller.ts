@@ -17,7 +17,7 @@ import { Connection } from '../connection/connection';
 import { MailService } from '../mail/mail.service';
 import { UserRepository } from '../user-repository/user-repository';
 import { MemberService } from '../member/member.service';
-import { User } from '@prisma/client';
+// import { User } from '@prisma/client';
 // import { Response } from 'express';
 
 @Controller('/api/users')
@@ -135,11 +135,11 @@ export class UserController {
     });
   }
 
-  @Post('/create-user')
-  async createUser(
-    @Query('first_name') firstName: string,
-    @Query('last_name') lastName: string,
-  ): Promise<User> {
-    return this.userRepository.save(firstName, lastName);
-  }
+  // @Post('/create-user')
+  // async createUser(
+  //   @Query('first_name') firstName: string,
+  //   @Query('last_name') lastName: string,
+  // ): Promise<User> {
+  //   return this.userRepository.save(firstName, lastName);
+  // }
 }

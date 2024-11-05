@@ -1,13 +1,25 @@
-import { Controller, Post } from '@nestjs/common';
+import { Controller, Inject, Post, Query } from '@nestjs/common';
+import { User } from '@prisma/client';
+import { AuthRepository } from '../auth-repository/auth-repository';
 
 @Controller('/api/auth')
 export class AuthController {
+  @Inject()
+  private authRepository: AuthRepository;
+
   // - /auth/login           // Login user
   @Post('/login')
   postLogin() {}
   // - /auth/register        // Registrasi user baru
   @Post('/register')
-  postRegister() {}
+  async postRegister(
+    @Query('username') username: string,
+    @Query('email') email: string,
+    @Query('password') password: string,
+    @Query('phone') phone?: string,
+  ): Promise<User> {
+    return this.authRepository.saveUser(username, email, password, phone);
+  }
   // - /auth/logout          // Logout user
   @Post('/logout')
   postLogout() {}
