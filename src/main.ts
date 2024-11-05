@@ -4,6 +4,7 @@ import { AppModule } from './app.module'; // Root module aplikasi
 import * as cookieParser from 'cookie-parser'; // Middleware untuk menangani cookies
 import * as mustache from 'mustache-express'; // Template engine untuk view
 import { NestExpressApplication } from '@nestjs/platform-express'; // Tipe aplikasi Express
+import { ConfigService } from '@nestjs/config';
 
 // Function utama untuk menjalankan aplikasi (async karena menggunakan await)
 async function bootstrap() {
@@ -25,10 +26,12 @@ async function bootstrap() {
   // Mendaftarkan Mustache sebagai engine untuk file .html
   app.engine('html', mustache());
 
+  const configService = app.get(ConfigService);
+
   // Menjalankan server pada port yang ditentukan
   // Menggunakan nullish coalescing operator (??) untuk default port 3000
   // Jika process.env.PORT tidak ada, akan menggunakan 3000
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(configService.get('PORT'));
 }
 
 // Memanggil function bootstrap untuk memulai aplikasi
