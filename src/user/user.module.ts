@@ -35,5 +35,7 @@ import {
       useExisting: MailService,
     },
   ],
+  // sharing provider harus pake export
+  exports: [UserService],
 })
 export class UserModule {}
