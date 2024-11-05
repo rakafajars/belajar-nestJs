@@ -4,6 +4,7 @@ import {
   Header,
   HttpCode,
   HttpRedirectResponse,
+  Inject,
   Post,
   Query,
   Redirect,
@@ -11,10 +12,24 @@ import {
   Res,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
+import { UserService } from './user.service';
 // import { Response } from 'express';
 
 @Controller('/api/users')
 export class UserController {
+  // constructor(private service: UserService) {}
+
+  // Kode : Property-based Injection
+  @Inject()
+  private userService: UserService;
+
+  // belajar provider kode ini
+  @Get('/hello')
+  async sayHello(@Query('name') name: string): Promise<string> {
+    // return this.service.sayHello(name);
+    return this.userService.sayHello(name);
+  }
+
   @Post()
   post(): string {
     return 'Post';
@@ -24,17 +39,18 @@ export class UserController {
   get(): string {
     return 'Helo Raka';
   }
+
   //   @Get('/:id')
   //   getById(@Param('id') id: string): string {
   //     return `Ge aast ${id}`;
   //   }
-  @Get('/hello')
-  async sayHello(
-    @Query('firstName') firstName: string,
-    @Query('lastName') lastName: string,
-  ): Promise<string> {
-    return `Helo ${firstName || 'Guest'} ${lastName || 'Star'}`;
-  }
+  // @Get('/hello')
+  // async sayHello(
+  //   @Query('firstName') firstName: string,
+  //   @Query('lastName') lastName: string,
+  // ): Promise<string> {
+  //   return `Helo ${firstName || 'Guest'} ${lastName || 'Star'}`;
+  // }
 
   //   TIDAK DISARANKAN MENGGUNAKAN INI
   //     @Get('/:id')

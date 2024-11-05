@@ -15,4 +15,9 @@ describe('UserService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it('should be able to say hello', () => {
+    const response = service.sayHello('Raka');
+    expect(response).toBe('hello Raka');
+  });
 });
