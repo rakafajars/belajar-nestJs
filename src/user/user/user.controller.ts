@@ -13,15 +13,41 @@ import {
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { UserService } from './user.service';
+import { Connection } from '../connection/connection';
+import { MailService } from '../mail/mail.service';
+import { UserRepository } from '../user-repository/user-repository';
 // import { Response } from 'express';
 
 @Controller('/api/users')
 export class UserController {
-  // constructor(private service: UserService) {}
+  // constructor(
+  //   private userService: UserService,
+  //   private connection: Connection,
+  //   private mailService: MailService,
+  //   private userRepository: UserRepository,
+  //   @Inject('EmailService') private emailService: MailService,
+  // ) {}
 
   // Kode : Property-based Injection
   @Inject()
   private userService: UserService;
+  @Inject()
+  private connection: Connection;
+  @Inject()
+  private mailService: MailService;
+  @Inject()
+  private userRepository: UserRepository;
+  @Inject('EmailService')
+  private emailService: MailService;
+
+  @Get('/connection')
+  async getConnection(): Promise<string> {
+    // return this.service.sayHello(name);
+    this.userRepository.save();
+    this.mailService.send();
+    this.emailService.send();
+    return this.connection.getName();
+  }
 
   // belajar provider kode ini
   @Get('/hello')
