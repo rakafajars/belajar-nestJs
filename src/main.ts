@@ -6,6 +6,7 @@ import * as mustache from 'mustache-express'; // Template engine untuk view
 import { NestExpressApplication } from '@nestjs/platform-express'; // Tipe aplikasi Express
 import { ConfigService } from '@nestjs/config';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+// import { ValidationFilter } from './validation/validation.filter';
 
 // Function utama untuk menjalankan aplikasi (async karena menggunakan await)
 async function bootstrap() {
@@ -35,6 +36,7 @@ async function bootstrap() {
   // Menggunakan nullish coalescing operator (??) untuk default port 3000
   // Jika process.env.PORT tidak ada, akan menggunakan 3000
   await app.listen(configService.get('PORT'));
+  // app.useGlobalFilters(new ValidationFilter());
 }
 
 // Memanggil function bootstrap untuk memulai aplikasi

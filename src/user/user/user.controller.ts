@@ -5,11 +5,14 @@ import {
   HttpCode,
   HttpRedirectResponse,
   Inject,
+  Param,
+  ParseIntPipe,
   Post,
   Query,
   Redirect,
   Req,
   Res,
+  UseFilters,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { UserService } from './user.service';
@@ -17,6 +20,7 @@ import { Connection } from '../connection/connection';
 import { MailService } from '../mail/mail.service';
 import { UserRepository } from '../user-repository/user-repository';
 import { MemberService } from '../member/member.service';
+import { ValidationFilter } from 'src/validation/validation.filter';
 // import { User } from '@prisma/client';
 // import { Response } from 'express';
 
@@ -57,6 +61,7 @@ export class UserController {
 
   // belajar provider kode ini
   @Get('/hello')
+  @UseFilters(ValidationFilter)
   async sayHello(@Query('name') name: string): Promise<string> {
     // return this.service.sayHello(name);
     return this.userService.sayHello(name);
@@ -72,10 +77,10 @@ export class UserController {
     return 'Helo Raka';
   }
 
-  //   @Get('/:id')
-  //   getById(@Param('id') id: string): string {
-  //     return `Ge aast ${id}`;
-  //   }
+  @Get('/:id')
+  getById(@Param('id', ParseIntPipe) id: number): string {
+    return `Ge aast ${id}`;
+  }
   // @Get('/hello')
   // async sayHello(
   //   @Query('firstName') firstName: string,
