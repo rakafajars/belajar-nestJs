@@ -1,11 +1,14 @@
 import {
   Body,
   Controller,
+  Get,
+  Header,
   HttpException,
   Inject,
   Post,
   Query,
   UseFilters,
+  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import { User } from '@prisma/client';
@@ -16,6 +19,9 @@ import {
 } from 'src/model/login.model';
 import { ValidationPipe } from 'src/validation/validation.pipe';
 import { ValidationFilter } from 'src/validation/validation.filter';
+import { TimeInterceptor } from 'src/time/time.interceptor';
+import { Auth } from '../auth.decorator';
+import { Roles } from 'src/role/role.decorator';
 
 @Controller('/api/auth')
 export class AuthController {
@@ -35,12 +41,16 @@ export class AuthController {
   @UsePipes(new ValidationPipe(loginUserRequestValidation))
   @UseFilters(ValidationFilter)
   @Post('/login')
+  @Header('Content-Type', 'application/json')
+  @UseInterceptors(TimeInterceptor)
   postLogin(
     @Query('username') username: string,
     @Body()
     request: LoginUserRequest,
   ) {
-    return `heallo ${request.username}`;
+    return {
+      data: `Hello ${request.username} ${username}`,
+    };
   }
 
   // - /auth/register        // Registrasi user baru
@@ -66,6 +76,15 @@ export class AuthController {
   // - /auth/logout          // Logout user
   @Post('/logout')
   postLogout() {}
+
+  @Get('/current')
+  @Roles(['admin', 'operator'])
+  current(@Auth() user: User): Record<string, any> {
+    return {
+      data: `hello ${user.username} ${user.email}`,
+    };
+  }
+
   // - /auth/refresh-token   // Memperbarui access token
   // - /auth/forgot-password // Request reset password
   // - /auth/reset-password  // Reset password

@@ -30,6 +30,8 @@ async function bootstrap() {
   // Mendaftarkan Mustache sebagai engine untuk file .html
   app.engine('html', mustache());
 
+  app.enableShutdownHooks();
+
   const configService = app.get(ConfigService);
 
   // Menjalankan server pada port yang ditentukan
@@ -37,6 +39,10 @@ async function bootstrap() {
   // Jika process.env.PORT tidak ada, akan menggunakan 3000
   await app.listen(configService.get('PORT'));
   // app.useGlobalFilters(new ValidationFilter());
+  // apa bila ingin timeStampnya global
+  // app.useGlobalInterceptors();
+
+  // app.useGlobalGuards();
 }
 
 // Memanggil function bootstrap untuk memulai aplikasi
